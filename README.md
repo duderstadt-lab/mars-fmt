@@ -1,8 +1,8 @@
 **MARS** - **M**olecule **AR**chive **S**uite - A collection of ImageJ2 commands for single-molecule analysis.
 
-Experimental plugin development happens here
+Experimental FMT plugin development happens here
 ===========================================
-This repository was created as a place for the development of new plugins. This will allow for frequent updates and changes without always having to bump the version
+This repository was created as a place for the development of new FMT plugins. This will allow for frequent updates and changes without always having to bump the version
 of mars-core. Overtime mars-core can therefore become more stable and be used more as a library rather than a place for the development of new tools.
 
 How to install this project in your local Fiji
