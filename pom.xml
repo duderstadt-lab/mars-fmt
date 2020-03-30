@@ -7,13 +7,13 @@
 	<parent>
 		<groupId>org.scijava</groupId>
 		<artifactId>pom-scijava</artifactId>
-		<version>26.0.0</version>
+		<version>27.0.1</version>
 		<relativePath />
 	</parent>
 
 	<groupId>de.mpg.biochem</groupId>
 	<artifactId>mars-fmt</artifactId>
-	<version>0.0.1-SNAPSHOT-alpha2</version>
+	<version>0.0.1-alpha-3-SNAPSHOT</version>
 
 	<name>mars-fmt</name>
 	<url>http://biochem.mpg.de/duderstadt/</url>
@@ -141,7 +141,7 @@
 		<dependency>
 			<groupId>de.mpg.biochem</groupId>
 			<artifactId>mars-core</artifactId>
-			<version>LATEST</version>
+			<version>1.0.0-beta-4-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<description>Experimental commands based on mars-core for analysis of Flow Magnetic Tweezers data in the Structure and Dynamics of Molecular Machines research group</description>
