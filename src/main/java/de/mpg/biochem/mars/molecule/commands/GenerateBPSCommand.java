@@ -56,14 +56,14 @@ import org.scijava.plugin.Plugin;
 import org.scijava.ui.UIService;
 import org.scijava.widget.ChoiceWidget;
 
-import de.mpg.biochem.mars.ImageProcessing.Peak;
+import de.mpg.biochem.mars.image.Peak;
+import de.mpg.biochem.mars.metadata.MarsMetadata;
 import de.mpg.biochem.mars.molecule.AbstractMoleculeArchive;
-import de.mpg.biochem.mars.molecule.MarsMetadata;
 import de.mpg.biochem.mars.molecule.Molecule;
 import de.mpg.biochem.mars.molecule.MoleculeArchive;
 import de.mpg.biochem.mars.molecule.MoleculeArchiveProperties;
-import de.mpg.biochem.mars.molecule.SingleMolecule;
 import de.mpg.biochem.mars.molecule.MoleculeArchiveService;
+import de.mpg.biochem.mars.molecule.SingleMolecule;
 import de.mpg.biochem.mars.table.MarsTable;
 import de.mpg.biochem.mars.util.LogBuilder;
 import net.imagej.ops.Initializable;
@@ -74,11 +74,11 @@ import javax.swing.JLabel;
 @Plugin(type = Command.class, label = "Generate bps", menu = {
 		@Menu(label = MenuConstants.PLUGINS_LABEL, weight = MenuConstants.PLUGINS_WEIGHT,
 				mnemonic = MenuConstants.PLUGINS_MNEMONIC),
-		@Menu(label = "MoleculeArchive Suite", weight = MenuConstants.PLUGINS_WEIGHT,
+		@Menu(label = "Mars", weight = MenuConstants.PLUGINS_WEIGHT,
 			mnemonic = 's'),
 		@Menu(label = "Molecule", weight = 1,
 			mnemonic = 'm'),
-		@Menu(label = "Generate bps", weight = 30, mnemonic = 'g')})
+		@Menu(label = "FMT Generate bps", weight = 30, mnemonic = 'g')})
 public class GenerateBPSCommand extends DynamicCommand implements Command, Initializable {
 	
 	@Parameter
@@ -175,7 +175,7 @@ public class GenerateBPSCommand extends DynamicCommand implements Command, Initi
 		//Build log message
 		LogBuilder builder = new LogBuilder();
 		
-		String log = builder.buildTitleBlock("Generate bps");
+		String log = LogBuilder.buildTitleBlock("Generate bps");
 		
 		addInputParameterLog(builder);
 		log += builder.buildParameterList();
@@ -194,7 +194,7 @@ public class GenerateBPSCommand extends DynamicCommand implements Command, Initi
 		
 		ForkJoinPool forkJoinPool = new ForkJoinPool(PARALLELISM_LEVEL);
 		
-		archive.addLogMessage(log);
+		archive.logln(log);
 		
 		//Loop through each molecule and extract the start and end regions for reversal
 	    try {
@@ -217,13 +217,13 @@ public class GenerateBPSCommand extends DynamicCommand implements Command, Initi
         		Molecule molecule = archive.get(UID);
         		
         		//If the input columns don't exist, we don't process the record.
-        		if (!molecule.getDataTable().hasColumn(Ycolumn) || !molecule.getDataTable().hasColumn(Xcolumn))
+        		if (!molecule.getTable().hasColumn(Ycolumn) || !molecule.getTable().hasColumn(Xcolumn))
         			return;
 
         		if (conversionType.equals("Reversal")) {
-	        		double ff_mean = molecule.getDataTable().mean(Ycolumn, Xcolumn, ff_start, ff_end);
-					double rf_mean = molecule.getDataTable().mean(Ycolumn, Xcolumn, rf_start, rf_end);
-					double f_mean = molecule.getDataTable().mean(Ycolumn, Xcolumn, f_start, f_end);
+	        		double ff_mean = molecule.getTable().mean(Ycolumn, Xcolumn, ff_start, ff_end);
+					double rf_mean = molecule.getTable().mean(Ycolumn, Xcolumn, rf_start, rf_end);
+					double f_mean = molecule.getTable().mean(Ycolumn, Xcolumn, f_start, f_end);
 					
 					//Let's switch rf and ff if the camera orientation is opposite to make sure the math still works out...
 					boolean cameraFlipped = false;
@@ -241,7 +241,7 @@ public class GenerateBPSCommand extends DynamicCommand implements Command, Initi
 					else 
 						mol_bps_per_um = global_bps_per_um;
 					
-					MarsTable table = molecule.getDataTable();
+					MarsTable table = molecule.getTable();
 					
 					if (!table.hasColumn(distance_column_name))
 						table.appendColumn(distance_column_name);
@@ -270,7 +270,7 @@ public class GenerateBPSCommand extends DynamicCommand implements Command, Initi
 						tab_bg_end = (int)molecule.getParameter("bg_end");
 					}
 					
-					MarsTable table = molecule.getDataTable();
+					MarsTable table = molecule.getTable();
 					
 					double mean_background = table.mean(Ycolumn, Xcolumn, tab_bg_start, tab_bg_end);
 					
@@ -301,7 +301,7 @@ public class GenerateBPSCommand extends DynamicCommand implements Command, Initi
 
 		logService.info("Time: " + DoubleRounder.round((System.currentTimeMillis() - starttime)/60000, 2) + " minutes.");
 	    logService.info(LogBuilder.endBlock(true));
-	    archive.addLogMessage(LogBuilder.endBlock(true));
+	    archive.logln(LogBuilder.endBlock(true));
 	    
 	    //Unlock the window so it can be changed
 	    if (!uiService.isHeadless())

@@ -7,13 +7,13 @@
 	<parent>
 		<groupId>org.scijava</groupId>
 		<artifactId>pom-scijava</artifactId>
-		<version>27.0.1</version>
+		<version>29.2.1</version>
 		<relativePath />
 	</parent>
 
 	<groupId>de.mpg.biochem</groupId>
 	<artifactId>mars-fmt</artifactId>
-	<version>0.0.1-alpha-3-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 
 	<name>mars-fmt</name>
 	<url>http://biochem.mpg.de/duderstadt/</url>
@@ -24,7 +24,7 @@
 	</organization>
 	<licenses>
 		<license>
-			<name>BSD-3</name>
+			<name>bsd_2</name>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
@@ -60,14 +60,14 @@
 	</mailingLists>
 
 	<scm>
-		<connection>scm:git:git://gitlab-laue.biochem.mpg.de/SDMM/mars-fmt.git</connection>
-		<developerConnection>scm:git:git@gitlab-laue.biochem.mpg.de:SDMM/mars-fmt.git</developerConnection>
+		<connection>scm:git:git://github.com/duderstadt-lab/mars-fmt</connection>
+		<developerConnection>scm:git:git@github.com:duderstadt-lab/mars-fmt</developerConnection>
 		<tag>HEAD</tag>
-		<url>https://gitlab-laue.biochem.mpg.de/SDMM/mars-fmt</url>
+		<url>https://github.com/duderstadt-lab/mars-fmt</url>
 	</scm>
 	<issueManagement>
-		<system>GitLab Issues</system>
-		<url>https://gitlab-laue.biochem.mpg.de/SDMM/mars-fmt/issues</url>
+		<system>GitHub Issues</system>
+		<url>https://github.com/duderstadt-lab/mars-fmt/issues</url>
 	</issueManagement>
 	<ciManagement>
 		<system>None</system>
@@ -75,7 +75,7 @@
 
 	<properties>
 		<package-name>de.mpg.biochem.mars</package-name>
-		<license.licenseName>BSD-3</license.licenseName>
+		<license.licenseName>bsd_2</license.licenseName>
 		<license.copyrightOwners>Karl Duderstadt</license.copyrightOwners>
 	</properties>
 
@@ -141,7 +141,7 @@
 		<dependency>
 			<groupId>de.mpg.biochem</groupId>
 			<artifactId>mars-core</artifactId>
-			<version>1.0.0-beta-4-SNAPSHOT</version>
+			<version>1.0.0-beta-5-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<description>Experimental commands based on mars-core for analysis of Flow Magnetic Tweezers data in the Structure and Dynamics of Molecular Machines research group</description>
