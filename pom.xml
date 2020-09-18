@@ -13,7 +13,7 @@
 
 	<groupId>de.mpg.biochem</groupId>
 	<artifactId>mars-fmt</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-beta-1</version>
 
 	<name>mars-fmt</name>
 	<url>http://biochem.mpg.de/duderstadt/</url>
@@ -70,14 +70,9 @@
 		<url>https://github.com/duderstadt-lab/mars-fmt/issues</url>
 	</issueManagement>
 	<ciManagement>
-		<system>None</system>
+		<system>Travis CI</system>
+		<url>https://travis-ci.com/duderstadt-lab/mars-fmt</url>
 	</ciManagement>
-
-	<properties>
-		<package-name>de.mpg.biochem.mars</package-name>
-		<license.licenseName>bsd_2</license.licenseName>
-		<license.copyrightOwners>Karl Duderstadt</license.copyrightOwners>
-	</properties>
 
 	<repositories>
 		<repository>
@@ -85,6 +80,19 @@
 			<url>http://maven.imagej.net/content/groups/public</url>
 		</repository>
 	</repositories>
+
+	<properties>
+		<package-name>de.mpg.biochem.mars</package-name>
+		<license.licenseName>bsd_2</license.licenseName>
+		<license.copyrightOwners>Karl Duderstadt</license.copyrightOwners>
+
+		<!-- NB: Deploy releases to the SciJava Maven repository. -->
+		<releaseProfiles>deploy-to-scijava</releaseProfiles>
+
+		<jackson.version>2.11.2</jackson.version>
+		<jackson-core.version>${jackson.version}</jackson-core.version>
+		<jackson-dataformat-smile.version>${jackson.version}</jackson-dataformat-smile.version>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -101,28 +109,18 @@
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.6.5</version>
-		</dependency>
-		<dependency>
-    		<groupId>com.fasterxml.jackson.core</groupId>
-    		<artifactId>jackson-annotations</artifactId>
-   			<version>2.6.0</version>
-  		</dependency>
-  		<dependency>
-    		<groupId>com.fasterxml.jackson.core</groupId>
-    		<artifactId>jackson-core</artifactId>
-   			 <version>2.6.5</version>
-  		</dependency>
-		<dependency>
-			<groupId>org.apache.directory.studio</groupId>
-			<artifactId>org.apache.commons.codec</artifactId>
-			<version>1.8</version>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-smile</artifactId>
-			<version>2.6.5</version>
+			<version>${jackson-dataformat-smile.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.directory.studio</groupId>
+			<artifactId>org.apache.commons.codec</artifactId>
+			<version>1.8</version>
 		</dependency>
 		<dependency>
 			<groupId>com.chrylis</groupId>
@@ -141,7 +139,7 @@
 		<dependency>
 			<groupId>de.mpg.biochem</groupId>
 			<artifactId>mars-core</artifactId>
-			<version>1.0.0-beta-5-SNAPSHOT</version>
+			<version>1.0.0-beta-5</version>
 		</dependency>
 	</dependencies>
 	<description>Experimental commands based on mars-core for analysis of Flow Magnetic Tweezers data in the Structure and Dynamics of Molecular Machines research group</description>
