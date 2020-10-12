@@ -89,6 +89,7 @@
 		<!-- NB: Deploy releases to the SciJava Maven repository. -->
 		<releaseProfiles>deploy-to-scijava</releaseProfiles>
 
+		<mars-core.version>1.0.0-beta-10-SNAPSHOT</mars-core.version>
 		<jackson.version>2.11.2</jackson.version>
 		<jackson-core.version>${jackson.version}</jackson-core.version>
 		<jackson-dataformat-smile.version>${jackson.version}</jackson-dataformat-smile.version>
@@ -139,7 +140,7 @@
 		<dependency>
 			<groupId>de.mpg.biochem</groupId>
 			<artifactId>mars-core</artifactId>
-			<version>1.0.0-beta-5</version>
+			<version>${mars-core.version}</version>
 		</dependency>
 	</dependencies>
 	<description>Experimental commands based on mars-core for analysis of Flow Magnetic Tweezers data in the Structure and Dynamics of Molecular Machines research group</description>
