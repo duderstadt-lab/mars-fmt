@@ -94,14 +94,14 @@ public class GenerateBPSCommand extends DynamicCommand implements Command, Initi
 	@Parameter
     private UIService uiService;
     
-    @Parameter(label="MoleculeArchive")
-    private MoleculeArchive<Molecule, MarsMetadata, MoleculeArchiveProperties<Molecule, MarsMetadata>, MoleculeArchiveIndex<Molecule, MarsMetadata>> archive;
-    
-    @Parameter(label="X Column", choices = {"a", "b", "c"})
-	private String Xcolumn;
-    
-    @Parameter(label="Y Column", choices = {"a", "b", "c"})
-	private String Ycolumn;
+	@Parameter(callback = "archiveSelectionChanged", label = "MoleculeArchive")
+	private MoleculeArchive<Molecule, MarsMetadata, MoleculeArchiveProperties<Molecule, MarsMetadata>, MoleculeArchiveIndex<Molecule, MarsMetadata>> archive;
+
+	@Parameter(label = "X Column", choices = { "a", "b", "c" })
+	private String xColumn;
+
+	@Parameter(label = "Y Column", choices = { "a", "b", "c" })
+	private String yColumn;
 	
 	@Parameter(label="um per pixel")
 	private double um_per_pixel = 1.56;
@@ -159,13 +159,35 @@ public class GenerateBPSCommand extends DynamicCommand implements Command, Initi
 	private final AtomicBoolean progressUpdating = new AtomicBoolean(true);
 	private final AtomicInteger numFinished = new AtomicInteger(0);
 	
+	// -- Callback methods --
+	private void archiveSelectionChanged() {
+		ArrayList<String> columns = new ArrayList<String>();
+		columns.addAll(archive.properties().getColumnSet());
+		columns.sort(String::compareToIgnoreCase);
+
+		final MutableModuleItem<String> xColumnItems = getInfo().getMutableInput(
+			"xColumn", String.class);
+		xColumnItems.setChoices(columns);
+
+		final MutableModuleItem<String> yColumnItems = getInfo().getMutableInput(
+			"yColumn", String.class);
+		yColumnItems.setChoices(columns);
+	}
+	
 	@Override
 	public void initialize() {
-		final MutableModuleItem<String> XcolumnItems = getInfo().getMutableInput("Xcolumn", String.class);
-		XcolumnItems.setChoices(moleculeArchiveService.getColumnNames());
-		
-		final MutableModuleItem<String> YcolumnItems = getInfo().getMutableInput("Ycolumn", String.class);
-		YcolumnItems.setChoices(moleculeArchiveService.getColumnNames());
+		ArrayList<String> columns = new ArrayList<String>();
+		columns.addAll(moleculeArchiveService.getArchives().get(0).properties()
+			.getColumnSet());
+		columns.sort(String::compareToIgnoreCase);
+
+		final MutableModuleItem<String> xColumnItems = getInfo().getMutableInput(
+			"xColumn", String.class);
+		xColumnItems.setChoices(columns);
+
+		final MutableModuleItem<String> yColumnItems = getInfo().getMutableInput(
+			"yColumn", String.class);
+		yColumnItems.setChoices(columns);
 	}
 	
 	@Override
@@ -218,13 +240,13 @@ public class GenerateBPSCommand extends DynamicCommand implements Command, Initi
         		Molecule molecule = archive.get(UID);
         		
         		//If the input columns don't exist, we don't process the record.
-        		if (!molecule.getTable().hasColumn(Ycolumn) || !molecule.getTable().hasColumn(Xcolumn))
+        		if (!molecule.getTable().hasColumn(yColumn) || !molecule.getTable().hasColumn(xColumn))
         			return;
 
         		if (conversionType.equals("Reversal")) {
-	        		double ff_mean = molecule.getTable().mean(Ycolumn, Xcolumn, ff_start, ff_end);
-					double rf_mean = molecule.getTable().mean(Ycolumn, Xcolumn, rf_start, rf_end);
-					double f_mean = molecule.getTable().mean(Ycolumn, Xcolumn, f_start, f_end);
+	        		double ff_mean = molecule.getTable().mean(yColumn, xColumn, ff_start, ff_end);
+					double rf_mean = molecule.getTable().mean(yColumn, xColumn, rf_start, rf_end);
+					double f_mean = molecule.getTable().mean(yColumn, xColumn, f_start, f_end);
 					
 					//Let's switch rf and ff if the camera orientation is opposite to make sure the math still works out...
 					boolean cameraFlipped = false;
@@ -248,7 +270,7 @@ public class GenerateBPSCommand extends DynamicCommand implements Command, Initi
 						table.appendColumn(distance_column_name);
 					
 					for (int j=0; j< table.getRowCount(); j++) {
-						double output = (table.getValue(Ycolumn, j) - attachment_Position)*um_per_pixel;
+						double output = (table.getValue(yColumn, j) - attachment_Position)*um_per_pixel;
 						if (output > 0)
 							output = (output - bead_radius)*mol_bps_per_um;
 						else if (output < 0)
@@ -273,13 +295,13 @@ public class GenerateBPSCommand extends DynamicCommand implements Command, Initi
 					
 					MarsTable table = molecule.getTable();
 					
-					double mean_background = table.mean(Ycolumn, Xcolumn, tab_bg_start, tab_bg_end);
+					double mean_background = table.mean(yColumn, xColumn, tab_bg_start, tab_bg_end);
 					
 					if (!table.hasColumn(distance_column_name))
 						table.appendColumn(distance_column_name);
 					
 					for (int j = 0; j < table.getRowCount(); j++) {
-						double bps = (table.getValue(Ycolumn, j) - mean_background)*um_per_pixel*global_bps_per_um;
+						double bps = (table.getValue(yColumn, j) - mean_background)*um_per_pixel*global_bps_per_um;
 						table.setValue(distance_column_name, j, bps);
 					}
         		}
@@ -311,8 +333,8 @@ public class GenerateBPSCommand extends DynamicCommand implements Command, Initi
 	
 	private void addInputParameterLog(LogBuilder builder) {
 		builder.addParameter("MoleculeArchive", archive.getName());
-		builder.addParameter("X Column", Xcolumn);
-		builder.addParameter("Y Column", Ycolumn);
+		builder.addParameter("X Column", xColumn);
+		builder.addParameter("Y Column", yColumn);
 		builder.addParameter("um per pixel", String.valueOf(um_per_pixel));
 		builder.addParameter("global bps per um", String.valueOf(global_bps_per_um));
 		builder.addParameter("Use", conversionType);
@@ -338,20 +360,20 @@ public class GenerateBPSCommand extends DynamicCommand implements Command, Initi
 		return archive;
 	}
 	
-	public void setXcolumn(String Xcolumn) {
-		this.Xcolumn = Xcolumn;
+	public void setXcolumn(String xColumn) {
+		this.xColumn = xColumn;
 	}
 	
 	public String getXcolumn() {
-		return Xcolumn;
+		return xColumn;
 	}
     
-	public void setYcolumn(String Ycolumn) {
-		this.Ycolumn = Ycolumn;
+	public void setYColumn(String yColumn) {
+		this.yColumn = yColumn;
 	}
 	
-	public String getYcolumn() {
-		return Ycolumn;
+	public String getYColumn() {
+		return yColumn;
 	}
 	
 	public void setUmPerPixel(double um_per_pixel) {
