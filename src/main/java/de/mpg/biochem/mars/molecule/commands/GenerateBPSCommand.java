@@ -360,11 +360,11 @@ public class GenerateBPSCommand extends DynamicCommand implements Command, Initi
 		return archive;
 	}
 	
-	public void setXcolumn(String xColumn) {
+	public void setXColumn(String xColumn) {
 		this.xColumn = xColumn;
 	}
 	
-	public String getXcolumn() {
+	public String getXColumn() {
 		return xColumn;
 	}
     
