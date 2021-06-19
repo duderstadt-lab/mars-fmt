@@ -206,10 +206,6 @@ public class GenerateBPSCommand extends DynamicCommand implements Command, Initi
 		//Output first part of log message...
 		logService.info(log);
 		
-		//Lock the window so it can't be changed while processing
-		if (!uiService.isHeadless())
-			archive.lock();
-		
 		//Need to determine the number of threads
 		final int PARALLELISM_LEVEL = Runtime.getRuntime().availableProcessors();
 		
@@ -325,10 +321,6 @@ public class GenerateBPSCommand extends DynamicCommand implements Command, Initi
 		logService.info("Time: " + DoubleRounder.round((System.currentTimeMillis() - starttime)/60000, 2) + " minutes.");
 	    logService.info(LogBuilder.endBlock(true));
 	    archive.logln(LogBuilder.endBlock(true));
-	    
-	    //Unlock the window so it can be changed
-	    if (!uiService.isHeadless())
-			archive.unlock();	
 	}	
 	
 	private void addInputParameterLog(LogBuilder builder) {
