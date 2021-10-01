@@ -1,26 +1,24 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-		http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.scijava</groupId>
 		<artifactId>pom-scijava</artifactId>
-		<version>30.0.0</version>
+		<version>31.1.0</version>
 		<relativePath />
 	</parent>
 
 	<groupId>de.mpg.biochem</groupId>
 	<artifactId>mars-fmt</artifactId>
-	<version>0.1.0-beta-3</version>
+	<version>0.2.0-SNAPSHOT</version>
 
 	<name>mars-fmt</name>
-	<url>http://biochem.mpg.de/duderstadt/</url>
+	<url>https://github.com/duderstadt-lab/mars-fmt</url>
 	<inceptionYear>2019</inceptionYear>
 	<organization>
 		<name>Max Planck Institute of Biochemistry</name>
-		<url>http://biochem.mpg.de/duderstadt/</url>
+		<url>https://biochem.mpg.de/</url>
 	</organization>
 	<licenses>
 		<license>
@@ -55,7 +53,7 @@
     <mailingLists>
 		<mailingList>
 			<name>Duderstadt Lab</name>
-			<archive>https://wiki-laue.biochem.mpg.de</archive>
+			<archive>https://duderstadtlab.org/</archive>
 		</mailingList>
 	</mailingLists>
 
@@ -70,73 +68,22 @@
 		<url>https://github.com/duderstadt-lab/mars-fmt/issues</url>
 	</issueManagement>
 	<ciManagement>
-		<system>Travis CI</system>
-		<url>https://travis-ci.com/duderstadt-lab/mars-fmt</url>
+		<system>GitHub Actions</system>
+		<url>https://github.com/duderstadt-lab/mars-fmt/actions</url>
 	</ciManagement>
 
-	<repositories>
-		<repository>
-			<id>imagej.public</id>
-			<url>http://maven.imagej.net/content/groups/public</url>
-		</repository>
-	</repositories>
-
 	<properties>
-		<package-name>de.mpg.biochem.mars</package-name>
+		<package-name>de.mpg.biochem.mars.commands</package-name>
 		<license.licenseName>bsd_2</license.licenseName>
 		<license.copyrightOwners>Karl Duderstadt</license.copyrightOwners>
 
 		<!-- NB: Deploy releases to the SciJava Maven repository. -->
 		<releaseProfiles>deploy-to-scijava</releaseProfiles>
 
-		<mars-core.version>1.0.0-beta-16-SNAPSHOT</mars-core.version>
-		<jackson.version>2.11.2</jackson.version>
-		<jackson-core.version>${jackson.version}</jackson-core.version>
-		<jackson-dataformat-smile.version>${jackson.version}</jackson-dataformat-smile.version>
+		<mars-core.version>1.0.0-beta-18</mars-core.version>
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>net.imglib2</groupId>
-			<artifactId>imglib2-ij</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.imagej</groupId>
-			<artifactId>imagej</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>sc.fiji</groupId>
-			<artifactId>fiji-lib</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-			<version>${jackson-core.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-smile</artifactId>
-			<version>${jackson-dataformat-smile.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.directory.studio</groupId>
-			<artifactId>org.apache.commons.codec</artifactId>
-			<version>1.8</version>
-		</dependency>
-		<dependency>
-			<groupId>com.chrylis</groupId>
-			<artifactId>base58-codec</artifactId>
-			<version>1.2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.decimal4j</groupId>
-			<artifactId>decimal4j</artifactId>
-			<version>1.0.3</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>de.mpg.biochem</groupId>
 			<artifactId>mars-core</artifactId>
@@ -144,4 +91,26 @@
 		</dependency>
 	</dependencies>
 	<description>Experimental commands based on mars-core for analysis of Flow Magnetic Tweezers data in the Structure and Dynamics of Molecular Machines research group</description>
+	
+	<repositories>
+		<repository>
+			<id>scijava.public</id>
+			<url>https://maven.scijava.org/content/groups/public</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<compilerArgs>
+						<arg>-parameters</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
