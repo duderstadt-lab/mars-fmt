@@ -1,4 +1,4 @@
-[![](https://travis-ci.com/duderstadt-lab/mars-fmt.svg?branch=master)](https://travis-ci.com/duderstadt-lab/mars-fmt)
+[![](https://github.com/duderstadt-lab/mars-fmt/actions/workflows/build-main.yml/badge.svg)](https://github.com/duderstadt-lab/mars-fmt/actions/workflows/build-main.yml)
 
 **MARS** - **M**olecule **AR**chive **S**uite - A collection of ImageJ2 commands for single-molecule analysis.
 
