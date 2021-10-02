@@ -78,7 +78,7 @@
 		<license.copyrightOwners>Karl Duderstadt</license.copyrightOwners>
 
 		<!-- NB: Deploy releases to the SciJava Maven repository. -->
-		<releaseProfiles>deploy-to-scijava</releaseProfiles>
+		<releaseProfiles>sign,deploy-to-scijava</releaseProfiles>
 
 		<mars-core.version>1.0.0-beta-18</mars-core.version>
 	</properties>
