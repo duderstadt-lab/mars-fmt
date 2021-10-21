@@ -71,7 +71,7 @@ import net.imagej.ops.Initializable;
 import org.scijava.table.DoubleColumn;
 
 import javax.swing.JLabel;
-
+/*
 @Plugin(type = Command.class, label = "Generate bps", menu = {
 		@Menu(label = MenuConstants.PLUGINS_LABEL, weight = MenuConstants.PLUGINS_WEIGHT,
 				mnemonic = MenuConstants.PLUGINS_MNEMONIC),
@@ -80,6 +80,7 @@ import javax.swing.JLabel;
 		@Menu(label = "FMT", weight = 100,
 			mnemonic = 'm'),
 		@Menu(label = "FMT Generate bps", weight = 1, mnemonic = 'g')})
+		*/
 public class GenerateBPSCommand extends DynamicCommand implements Command, Initializable {
 	
 	@Parameter
