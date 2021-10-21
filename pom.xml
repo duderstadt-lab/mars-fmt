@@ -80,7 +80,7 @@
 		<!-- NB: Deploy releases to the SciJava Maven repository. -->
 		<releaseProfiles>sign,deploy-to-scijava</releaseProfiles>
 
-		<mars-core.version>1.0.0-beta-20</mars-core.version>
+		<mars-core.version>1.0.0-beta-21</mars-core.version>
 	</properties>
 
 	<dependencies>
